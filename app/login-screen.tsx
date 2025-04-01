@@ -5,7 +5,7 @@ import InputComponent from '@/components/input';
 import { useRouter } from 'expo-router';
 import Toast from 'react-native-toast-message';
 import ExpGoLogo from '../assets/images/adaptive-icon.png';
-import LoginGoogleScreen from './login-google-screen';
+// import LoginGoogleScreen from './login-google-screen';
 import LoginGithubScreen from './login-github-screen';
 import { signIn } from '@/api/auth.api';
 
@@ -54,7 +54,7 @@ const LoginScreen = () => {
                         secureTextEntry
                     />
                     <ButtonComponent name="Sign In" isLoading={isLoading} onPress={handleSignIn} />
-                    <LoginGoogleScreen />
+                    {/* <LoginGoogleScreen /> */}
                     <LoginGithubScreen />
                 </View>
                 <View style={styles.signUpContainer}>

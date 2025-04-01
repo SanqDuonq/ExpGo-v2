@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import ButtonComponent from '@/components/button';
 import InputComponent from '@/components/input';
 import { useRouter } from 'expo-router';
-import LoginGoogleScreen from './login-google-screen';
+// import LoginGoogleScreen from './login-google-screen';
 import LoginGithubScreen from './login-github-screen';
 
 const RegisterScreen = () => {
@@ -47,7 +47,7 @@ const RegisterScreen = () => {
                         secureTextEntry
                     />
                     <ButtonComponent name="Sign Up" />
-                    <LoginGoogleScreen />
+                    {/* <LoginGoogleScreen /> */}
                     <LoginGithubScreen />
                 </View>
                 <View style={styles.signInContainer}>

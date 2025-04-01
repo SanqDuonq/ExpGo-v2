@@ -102,7 +102,7 @@ const LocationScreen = () => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.headerText}>Các địa điểm đề xuất</Text>
+                <Text style={styles.headerText}>Recommend</Text>
             </View>
 
             <View style={styles.buttonContainer}>
