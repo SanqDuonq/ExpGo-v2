@@ -1,20 +1,39 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native'
+import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import googleIcon from '../assets/images/google-icon.png';
 
 const LoginGoogleScreen = () => {
     return (
-        <View className='gap-4'>
-            <TouchableOpacity 
-                className='flex-row items-center justify-center bg-gray-200 h-[50px] rounded-lg px-4 mt-4'
-            >
-                <Image
-                    source={googleIcon}
-                    className='mr-2'
-                />
-                <Text className='text-center font-semibold text-black'>Continue with Google</Text>
+        <View style={styles.container}>
+            <TouchableOpacity style={styles.button}>
+                <Image source={googleIcon} style={styles.icon} />
+                <Text style={styles.buttonText}>Continue with Google</Text>
             </TouchableOpacity>
         </View>
-    )
-}
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        gap: 16, 
+    },
+    button: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#E0E0E0', 
+        height: 50,
+        borderRadius: 8, 
+        paddingHorizontal: 16,
+        marginTop: 16,
+    },
+    icon: {
+        marginRight: 8, 
+    },
+    buttonText: {
+        textAlign: 'center',
+        fontWeight: '600', 
+        color: '#000000', 
+    },
+});
 
 export default LoginGoogleScreen;

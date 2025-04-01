@@ -60,9 +60,9 @@ export function MyTabBar({ state, descriptors, navigation }: BottomTabBarProps) 
                         style={styles.tabbarItem}
                     >
                         {icon[route.name]({
-                            color: isFocused ? '#000000' : "#222"
+                            color: isFocused ? '#02929A' : "#222"
                         })}
-                        <Text style={{ color: isFocused ? colors.primary : colors.text }}>
+                        <Text style={{ color: isFocused ? '#02929A' : colors.text }}>
                             {label}
                         </Text>
                     </PlatformPressable>
@@ -84,7 +84,9 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 10 },
         shadowRadius: 10,
-        shadowOpacity: 0.1
+        shadowOpacity: 0.1,
+        borderTopWidth: 1, 
+        borderTopColor: '#02929A'
     },
     tabbarItem: {
         flex: 1,

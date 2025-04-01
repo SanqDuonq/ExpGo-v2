@@ -1,29 +1,82 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Toast from 'react-native-toast-message';
 import { useRouter } from 'expo-router';
-
-const DEFAULT_AVATAR = '../../assets/images/user.png';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const ProfileScreen = () => {
+    const router = useRouter();
+    const [profile, setProfile] = useState<{ name: string, email: string, avatar: string } | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                setLoading(true);
+                const token = await AsyncStorage.getItem('accessToken');
+                if (!token) {
+                    router.push('/login-screen');
+                    return;
+                }
+    
+                const response = await axios.get('https://vision-ocr-pvru.vercel.app/api/auth/profile-user', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+    
+                console.log(response.data);
+    
+                setProfile(response.data.data);  
+            } catch (error) {
+                console.error("Lỗi khi lấy thông tin profile:", error);
+                Toast.show({ type: 'error', text1: 'Không thể tải thông tin!' });
+            } finally {
+                setLoading(false);
+            }
+        };
+    
+        fetchProfile();
+    }, []);
+    
+
+    const handleLogout = async () => {
+        try {
+            await AsyncStorage.removeItem('accessToken');
+            Toast.show({ type: 'success', text1: 'Đăng xuất thành công!' });
+            router.push('/login-screen');
+        } catch (error) {
+            console.error("Lỗi khi đăng xuất:", error);
+            Toast.show({ type: 'error', text1: 'Đăng xuất thất bại!' });
+        }
+    };
+
+    if (loading) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#02929A" />
+            </View>
+        );
+    }
 
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.headerTitle}>Thông tin khách hàng</Text>
-            </View>
-            <View style={styles.profileCard}>
-                <Image  style={styles.avatar} />
-                <View style={styles.profileInfo}>
-                    <Text style={styles.name}></Text>
-                    <Text style={styles.email}></Text>
-                </View>
-            
+                <Text style={styles.headerTitle}>Profile Customer</Text>
             </View>
 
-            <TouchableOpacity style={styles.logoutButton}>
+            <View style={styles.profileCard}>
+                <Image source={{ uri: profile?.avatar }} style={styles.avatar} />
+                <View style={styles.profileInfo}>
+                    <Text style={styles.name}>{profile?.name || 'Chưa có tên'}</Text>
+                    <Text style={styles.email}>{profile?.email || 'Chưa có email'}</Text>
+                </View>
+            </View>
+
+            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
                 <Text style={styles.logoutText}>Log out</Text>
             </TouchableOpacity>
+
+            <Toast />
         </View>
     );
 };
@@ -39,7 +92,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingHorizontal: 20,
         paddingVertical: 20,
-        backgroundColor: "#1C4E1D",
+        backgroundColor: "#02929A",
     },
     headerTitle: {
         fontSize: 18,
@@ -83,6 +136,12 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
     },
+    loadingContainer: { 
+        flex: 1, 
+        justifyContent: "center", 
+        alignItems: "center" 
+    },
+
 });
 
 export default ProfileScreen;
